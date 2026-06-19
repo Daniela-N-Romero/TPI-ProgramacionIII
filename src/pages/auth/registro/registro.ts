@@ -3,6 +3,8 @@ import { rolRedirect, validatePassword } from '../../../utils/auth';
 import { getUsers, loginUser, saveUser } from '../../../utils/localStorage'
 
 const form = document.getElementById("registro-form") as HTMLFormElement;
+const inputName = document.getElementById("name") as HTMLInputElement;
+const inputApellido = document.getElementById("apellido") as HTMLInputElement;
 const inputEmail = document.getElementById("email") as HTMLInputElement;
 const inputPassword = document.getElementById("password") as HTMLInputElement;
 const inputPasswordConfirm = document.getElementById("passwordConfirm") as HTMLInputElement;
@@ -17,11 +19,13 @@ form?.addEventListener("submit", (e: SubmitEvent) => {
     const valueEmail = inputEmail.value;
     const valuePassword = inputPassword.value;
     const valuePasswordConfirm = inputPasswordConfirm.value;
+    const valueName = inputName.value;
+    const valueApellido = inputApellido.value;
     const users = getUsers();
 
-    if (valuePassword !== valuePasswordConfirm) {
-        alert("Las contraseñas no coinciden.")
-        return
+    if (!valueName || !valueApellido) {
+        alert("Por favor, complete su nombre y apellido.");
+        return;
     }
 
     if (!validatePassword(valuePassword) || !validatePassword(valuePasswordConfirm)) {
@@ -29,6 +33,10 @@ form?.addEventListener("submit", (e: SubmitEvent) => {
         return;
     }
 
+    if (valuePassword !== valuePasswordConfirm) {
+        alert("Las contraseñas no coinciden.")
+        return
+    }
 
     const newUser: IUserStorage = {
         mail: valueEmail,
@@ -72,6 +80,7 @@ passwords.forEach(input => {
     })
 });
 
+//cambiamos las clases que indican si se cumplen o no los requisitos de la contraseña para mostrar al usuario que debe corregir. Si se cumplen, se muestra en verde, sino se quedan gris.
 function actualizarValidez(elemento: HTMLElement, esValido: boolean) {
     if (esValido) {
         elemento.classList.remove('invalido');
