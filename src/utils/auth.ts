@@ -1,4 +1,3 @@
-import type { IUser } from "../types/IUser";
 import type { IUserStorage } from "../types/IUserStorage";
 import type { Rol } from "../types/Rol";
 import { getUser, removeUser } from "./localStorage";
@@ -41,19 +40,19 @@ export const checkAuthUser = (
   const user = getUser();
     
   if (!user) { // no hay usuario activo
-    navigate("/src/pages/auth/login/login.html");
+    navigate("/login");
     return false;
-  } else if (JSON.parse(user).rol !== rol) { // el usuario no tiene el rol requerido
+  } else if (user.rol !== rol) { // el usuario no tiene el rol requerido
     navigate(redireccion);    
   }
   return true;
 };
 
 
-//eliminar sesion activa y redirigir al login
+//eliminar sesion activa y redirigir a la tienda en modo invitado
 export const logout = () => {
   removeUser();
-  navigate("/src/pages/auth/login/login.html");
+  navigate("/tienda");
 };
 
 //redirigir segun el rol del usuario

@@ -1,23 +1,30 @@
 :root {
-  --primary: #646cff;
-  --primary-hover: #535bf2;
   --card-bg: #ffffff;
-  --notes: #a7a7a7;
+  --primary-color: #ff6b4a;      /* El naranja de los botones y logo */
+    --primary-hover: #e05638;
+    --secondary-color: #2b2d42;    /* Textos principales */
+    --bg-light: #f4f6f9;           /* Fondo gris claro de la app */
+    --bg-white: #ffffff;
+    --border-color: #e2e8f0;
+    --text-muted: #718096;
+    --accent-green: #00bfa6;       /* Color de "Disponible" o "Confirmar" */
+    --accent-red: #d90429;         /* Botón Vaciar Carrito / Eliminar */
+    --accent-yellow: #ffb703;      /* Estado Pendiente */
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --radius: 8px;
 }
 
-#content-body {
+.main-content {
   display: none; 
 }
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
   font-family: 'Inter', system-ui, sans-serif;
-  background-color: var(--bg-color);
-  color: var(--text-color);
+  background-color: var(--bg-light);
+  color: var(--secondary-color);
   justify-content: center;
 }
 
@@ -39,7 +46,7 @@ section, .card {
 h1 {
   font-size: 2rem;
   margin-bottom: 1.5rem;
-  color: var(--primary);
+  color: var(--primary-color);
 }
 
 /* Formularios */
@@ -71,36 +78,40 @@ input {
 
 input:focus {
   outline: none;
-  border-color: var(--primary);
+  border-color: var(--primary-color);
 }
 
 /* Botones */
-button, .btn {
-  background-color: var(--primary);
-  color: white;
-  padding: 0.8rem 1.5rem;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s, transform 0.1s;
-  text-decoration: none;
-  display: inline-block;
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
-button:hover, .btn:hover {
-  background-color: var(--primary-hover);
-}
+.btn-primary { background-color: var(--primary-color); color: white; }
+.btn-primary:hover { background-color: var(--primary-hover); }
 
-button:active {
-  transform: scale(0.98);
-}
+.btn-secondary { background-color: var(--border-color); color: var(--secondary-color); }
+.btn-secondary:hover { background-color: #cbd5e1; }
+
+.btn-danger { background-color: var(--accent-red); color: white; }
+.btn-danger:hover { background-color: #b30322; }
+
+.btn-success { background-color: var(--accent-green); color: white; }
+.btn-success:hover { background-color: #00a38d; }
 
 
 /* Enlaces */
 a {
-  color: var(--primary);
+  color: var(--primary-color);
   text-decoration: none;
   font-size: 0.9rem;
   margin-top: 1rem;
@@ -111,13 +122,133 @@ a:hover {
   text-decoration: underline;
 }
 
+/* Estilos langing page */
+
+/* Contenedor que ocupa toda la pantalla y centra el contenido */
+.landing-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Fondo degradado sutil usando los colores de la marca */
+    background: linear-gradient(135deg, #fff0ec 0%, var(--bg-light) 100%);
+    padding: 20px;
+}
+
+/* Tarjeta principal blanca */
+.landing-card {
+    background-color: var(--bg-white);
+    padding: 40px 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Animación de entrada suave */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Estilos del encabezado y logo */
+.landing-header {
+    margin-bottom: 30px;
+}
+
+.landing-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.landing-logo h1 {
+    font-size: 2.4rem;
+    color: var(--secondary-color);
+    font-weight: 800;
+}
+
+.logo-icon {
+    font-size: 2.6rem;
+}
+
+.slogan {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.landing-divider {
+    border: 0;
+    height: 1px;
+    background-color: var(--border-color);
+    margin: 0 auto 30px auto;
+    width: 80%;
+}
+
+/* Sección de Botones y llamadas a la acción */
+.landing-actions h2 {
+    font-size: 1.3rem;
+    color: var(--secondary-color);
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+.actions-sub {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 25px;
+    line-height: 1.4;
+}
+
+.actions-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.btn-landing {
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 1rem;
+    border-radius: var(--radius);
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+}
+
+.landing-footer {
+    margin-top: 35px;
+}
+
+.landing-footer p {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
 /*  Estilos Login / Registro  */
+
+.auth-body{
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  justify-content: center;
+}
+
 
 .test-data {
   display:block;
   text-align:left;
   font-size: 0.8rem;
-  color: var(--notes);
+  color: var(--text-muted);
 }
 .test-data:first-of-type{
   font-weight: 600;
@@ -148,4 +279,257 @@ a:hover {
 }
 .valido {
   color: #52c41a; 
+}
+
+/* --- Estructura base --- */
+.header-nav {
+    background-color: var(--bg-white);
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+    color: var(--primary-color);
+    font-size: 1.2rem;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    list-style: none;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--secondary-color);
+    font-weight: 500;
+}
+
+.app-container {
+    display: flex;
+    flex: 1;
+}
+
+.sidebar {
+    width: 260px;
+    background-color: var(--bg-white);
+    border-right: 1px solid var(--border-color);
+    padding: 25px 20px;
+}
+
+.main-content {
+    flex: 1;
+    padding: 30px 40px;
+}
+
+/* Componentes del Layout */
+.sidebar-subtitle {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.sidebar-title{
+  color:var(--primary-color);
+}
+
+.sidebar-menu {
+    list-style: none;
+}
+
+.sidebar-menu li {
+    margin-bottom: 8px;
+}
+.sidebar-divider{
+  border:0;
+  height:1px;
+  background-color: var(--text-muted)
+}
+
+.sidebar-menu a {
+    display: block;
+    padding: 12px 15px;
+    color: var(--secondary-color);
+    text-decoration: none;
+    border-radius: var(--radius);
+    font-weight: 500;
+}
+
+.sidebar-menu li.active a, 
+.sidebar-menu a:hover {
+    background-color: #fff0ec;
+    color: var(--primary-color);
+}
+
+/* búsqueda en Home Store */
+.toolbar {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+    background: var(--bg-white);
+    padding: 15px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.search-input {
+    flex: 1;
+    padding: 12px 20px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    font-size: 1rem;
+}
+
+.select-filter {
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    background-color: var(--bg-white);
+    min-width: 150px;
+}
+
+/* --- MODALES  --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Oscurece el fondo */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+/* Clase dinámica que aplicamos con TS */
+.modal-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-card {
+    background-color: var(--bg-white);
+    padding: 30px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 550px; 
+    max-height: 90vh;
+    overflow-y: auto;  /* Por si el contenido es largo */
+    position: relative;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    transform: translateY(-20px);
+    transition: transform 0.3s ease;
+}
+
+.modal-overlay.open .modal-card {
+    transform: translateY(0);
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-muted);
+}
+
+/* formularios de modal */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    font-size: 1rem;
+}
+
+.modal-footer-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
+}
+
+/* Estilos específicos Admin Dashboard */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin-top: 25px;
+}
+
+.stat-card {
+    border-radius: 12px;
+    padding: 20px;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 160px;
+    box-shadow: var(--shadow);
+}
+
+.stat-info{
+  flex-grow: 1;
+}
+
+.card-purple { background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); }
+.card-pink   { background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%); }
+.card-blue   { background: linear-gradient(135deg, #02aab0 0%, #00cdac 100%); }
+.card-green  { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); }
+
+.stat-info .icon { font-size: 1.5rem; }
+.stat-info h3 { font-size: 1.1rem; margin-top: 5px; font-weight: 500; }
+.stat-info .counter { font-size: 2rem; font-weight: bold; margin-top: 2px; }
+
+.btn-manage {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    padding: 6px 12px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    align-self: flex-start;
+    font-weight: 600;
+}
+.btn-manage:hover { background: rgba(255, 255, 255, 0.3); }
+
+.summary-panel {
+    background-color: var(--bg-white);
+    border-radius: var(--radius);
+    padding: 25px;
+    margin-top: 30px;
+    box-shadow: var(--shadow);
 }

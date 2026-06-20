@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="../../../style.css">
+    <link rel="stylesheet" href="/src/style.css">
 </head>
 
-<body>
+<body class="auth-body">
     <div id="app">
         <section class="card session-card">
             <h1>Super Food</h1>
@@ -25,13 +25,13 @@
                     <input type="password" id="password" name="password" autocomplete="off" placeholder="********">
                 </div>
 
-                <button type="submit">Ingresar</button>
+                <button class="btn btn-primary" type="submit">Ingresar</button>
 
             </form>
 
             
-            <p>¿No tenés cuenta? <a href="../registro/registro.html">Registrate</a></p>
-            <a class="back-to-home"  href="../../../../index.html">Volver al Inicio</a>
+            <p>¿No tenés cuenta? <a href="/registro">Registrate</a></p>
+            <a class="back-to-home"  href="/inicio">Volver al Inicio</a>
         
             <span class="test-data">Cuentas de prueba:</span>
             <span class="test-data">admin@admin.com / admin123</span>
@@ -39,7 +39,7 @@
             
         </section>
     </div>
-    <script type="module" src="./login.ts"></script>
+    <script type="module" src="/src/pages/auth/login/login.ts"></script>
 </body>
 
 </html>

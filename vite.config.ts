@@ -8,11 +8,60 @@ export default defineConfig({
                 index: resolve(__dirname, "index.html"),
                 login: resolve(__dirname, "src/pages/auth/login/login.html"),
                 registro: resolve(__dirname, "src/pages/auth/registro/registro.html"),
-                adminHome: resolve(__dirname, "src/pages/admin/home/home.html"),
-                clientHome: resolve(__dirname, "src/pages/client/home/home.html"),
-                
+                adminHome: resolve(__dirname, "src/pages/admin/adminHome/home.html"),
+                categories: resolve(__dirname, "src/pages/admin/categories/categories.html"),
+                products: resolve(__dirname, "src/pages/admin/products/products.html"),
+                orders: resolve(__dirname, "src/pages/admin/orders/orders.html"),
+                storeHome: resolve(__dirname, "src/pages/store/home/storeHome.html"),
+                cart: resolve(__dirname, "src/pages/store/cart/cart.html"),
+                productDetail: resolve(__dirname, "src/pages/store/productDetail/productDetail.html"),
+                clientOrders: resolve(__dirname, "src/pages/orders/orders.html")                
             },
         },
     },
     base: "./",
+   plugins: [
+        {
+            name: "html-rewriter-plugin",
+            configureServer(server) {
+                server.middlewares.use((req, res, next) => {
+                    if (req.url === "/inicio") {
+                        req.url = "/index.html";
+                    }
+                    if (req.url === "/login") {
+                        req.url = "/src/pages/auth/login/login.html";
+                    }
+                    if (req.url === "/registro"){
+                        req.url = "/src/pages/auth/registro/registro.html";
+                    }
+                    if (req.url === "/adminPanel"){
+                        req.url = "/src/pages/admin/adminHome/home.html";
+                    }
+                    if (req.url === "/manageCategories"){
+                        req.url = "/src/pages/admin/categories/categories.html";
+                    }
+                    if (req.url === "/manageProducts"){
+                        req.url = "/src/pages/admin/products/products.html";
+                    }
+                    if (req.url === "/manageOrders"){
+                        req.url = "/src/pages/admin/orders/orders.html";
+                    }
+                    if (req.url === "/tienda") {
+                        req.url = "/src/pages/store/home/storeHome.html";
+                    }
+                    if (req.url === "/carrito") {
+                        req.url = "/src/pages/store/cart/cart.html";
+                    }
+                    if (req.url === "/producto") {
+                        req.url = "/src/pages/store/productDetail/productDetail.html";
+                    }
+                    if (req.url === "/myOrders") {
+                        req.url = "/src/pages/orders/orders.html";
+                    }    
+
+                    next();
+                });
+            },
+        },
+    ],
 });

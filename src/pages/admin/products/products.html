@@ -19,21 +19,21 @@
 
     <div class="app-container">
         <aside class="sidebar" id="app-sidebar">
-            <h3 class="sidebar-title">Categorías</h3>
-            <h4 class="sidebar-subtitle">Filtra POR CATEGORIA</h4>
+            <h3 class="sidebar-title">Administracíon</h3>
+            <h4 class="sidebar-subtitle">Panel de control</h4>
             <ul class="sidebar-menu">
-                <li class="active"><a href="#">📦 Todos los productos</a></li>
-                <li><a href="#">🍔 Hamburguesas</a></li>
-                <li><a href="#">🍕 Pizzas</a></li>
-                <li><a href="#">🥟 Empanadas</a></li>
-                <li><a href="#">🍟 Papas Fritas</a></li>             
+                <li class="active"><a href="/adminPanel">Dashboard</a></li>
+                <li><a href="/manageCategories">Categorias</a></li>
+                <li><a href="/manageProducts">Productos</a></li>
+                <li><a href="/manageOrders">Pedidos</a></li>
+                <hr class="sidebar-divider">
+                <li><a href="/tienda">Ver Tienda</a></li>             
             </ul>
         </aside>
 
         <main class="main-content" id="main-view">
-            <h1>Bienvenido a Food Store</h1>
-            <p>Explora nuestra selección de productos deliciosos.</p>
-        </main>
+         
+            </main>
     </div>
 
     <div class="modal-overlay" id="global-modal">
@@ -43,8 +43,7 @@
                 </div>
         </div>
     </div>
-
         <script type="module" src="/src/utils/layout.ts"></script>
-        <script type="module" src="/src/pages/store/home/storeHome.ts"></script>
+        <script type ="module" src="/src/pages/admin/products/products.ts"></script>
 </body>
 </html>

@@ -4,32 +4,45 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./src/style.css">
+    <link rel="stylesheet" href="/src/style.css">
     <title>tp-4</title>
   </head>
   <body>
-    <div id="app">
-        <section id="guest-section" style="display: none;">
-            <h1>Bienvenido a Food Store 🍔</h1>
-            <p>Por favor, elegí una opción para continuar:</p>
-            <div class="actions">
-                <a href="/src/pages/auth/login/login.html" class="btn">Iniciar Sesión</a>
-                <a href="/src/pages/auth/registro/registro.html" class="btn">Registrarse</a>
-            </div>
-        </section>
-
-        <section id="session-notice" style="display: none;">
-            <div class="modal-content">
-                <h2>Sesión detectada 👤</h2>
-                <p>Ya tenés una sesión iniciada como: <strong id="user-email"></strong></p>
-                <div class="actions">
-                    <button id="btn-continue" class="btn-primary">Continuar al Home</button>
-                    <button id="btn-logout" class="btn-secondary">Cerrar Sesión</button>
+<div class="landing-container">
+        <main class="landing-card">
+            
+            <header class="landing-header">
+                <div class="landing-logo">
+                    <span class="logo-icon">🍕</span>
+                    <h1>Food Store</h1>
                 </div>
-            </div>
-        </section>
+                <p class="slogan">Tus comidas favoritas, listas para disfrutar.</p>
+            </header>
+
+            <hr class="landing-divider">
+
+            <section class="landing-actions">
+                <h2>¿Cómo deseas continuar?</h2>
+                <p class="actions-sub">Explorá nuestro menú o ingresá a tu cuenta para gestionar tus pedidos.</p>
+                
+                <div class="actions-group">
+                    <button class="btn btn-secondary btn-landing" id="btn-landing-guest">
+                        Ver Catálogo como Invitado
+                    </button>
+                    
+                    <button class="btn btn-primary btn-landing" id="btn-landing-login">
+                         Ya estoy registrado / Ingresar
+                    </button>
+                </div>
+            </section>
+
+            <footer class="landing-footer">
+                <p>© Daniela Nahir Romero TUPaD 2026.</p>
+            </footer>
+
+        </main>
     </div>
 
-    <script type="module" src="/src/main.ts"></script>
+    <script src="/src/main.ts" type="module"></script>
   </body>
 </html>

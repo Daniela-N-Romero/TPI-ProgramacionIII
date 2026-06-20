@@ -13,6 +13,8 @@ form.addEventListener("submit", async (e: SubmitEvent) => {
   const valueEmail = inputEmail.value;
   const valuePassword = inputPassword.value;
 
+    console.log(valueEmail, valuePassword)
+
  if(!validateEmail(valueEmail)){
     alert("Por favor, ingrese un correo electrónico válido.");
     return;
@@ -22,7 +24,7 @@ form.addEventListener("submit", async (e: SubmitEvent) => {
     return;
  }
   const usuarioExistente = await findUserByEmail(valueEmail);
-  console.log("Usuario encontrado:", usuarioExistente);
+  
   if (!usuarioExistente) {
       alert("El email ingresado no existe.")
       inputPassword.value = "";
@@ -37,7 +39,7 @@ form.addEventListener("submit", async (e: SubmitEvent) => {
       };
 
       loginUser(user);
-      rolRedirect(user.rol, "/src/pages/admin/adminHome/home.html", "/src/pages/store/home/storeHome.html");
+      rolRedirect(user.rol, "/adminPanel", "/tienda");
   } else {
       alert("Contraseña incorrecta. Por favor, intenta de nuevo.");
       inputPassword.value = "";

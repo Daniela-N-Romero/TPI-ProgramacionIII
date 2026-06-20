@@ -10,7 +10,8 @@ export const loginUser = (user: IUser) => {
   localStorage.setItem("userData", parseUser);
 };
 export const getUser = () => {
-  return localStorage.getItem("userData");
+  const user = localStorage.getItem("userData");
+  return user ? JSON.parse(user) : null;
 };
 export const removeUser = () => {
   localStorage.removeItem("userData");

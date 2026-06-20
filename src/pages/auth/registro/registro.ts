@@ -57,7 +57,7 @@ form?.addEventListener("submit", (e: SubmitEvent) => {
     const { password, id, ...userToLog } = newUser;
     loginUser(userToLog)
     alert("Usuario Registrado. Redirigiendo al home...")
-    setTimeout(() => rolRedirect(newUser.rol, "/src/pages/admin/adminHome/home.html", "/src/pages/store/home/storeHome.html"), 1500)
+    setTimeout(() => rolRedirect(newUser.rol, "/adminPanel", "/tienda"), 1500)
 
 }
 )

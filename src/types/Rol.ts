@@ -1,1 +1,1 @@
-export type Rol = "USUARIO" | "ADMIN";
+export type Rol = "USUARIO" | "ADMIN" | "INVITADO";
