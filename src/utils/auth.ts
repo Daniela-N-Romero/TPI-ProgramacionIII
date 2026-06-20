@@ -1,7 +1,7 @@
-import type { IUserStorage } from "../types/IUserStorage";
-import type { Rol } from "../types/Rol";
+import type { Rol, IUserStorage } from "../types/IUser";
 import { getUser, removeUser } from "./localStorage";
 import { navigate } from "./navigate";
+import { getUsers } from "./fetch"
 
 
 //funcion que busca un usuario por mail
@@ -16,20 +16,7 @@ export async function findUserByEmail(email:string): Promise<IUserStorage | null
     }
 }
 
-//funcion para recuperar a los usuarios desde el json, pero se va a modificar luego para recuperar desde la API
-export async function getUsers(): Promise<IUserStorage[]> {
-  try{
-    const response = await fetch("/data/usuarios.json")
-    if (!response.ok){
-      throw new Error("Error al obtener los usuarios");
-    }
-    const users: IUserStorage[] = await response.json();
-    return users;
-  } catch (error) {
-    console.error("Error al buscar el usuario:", error);
-    throw error;
-  }
-};
+
 
 //revisar si hay un usuario activo, si no lo hay redirigir a login, si lo hay verificar el rol
 export const checkAuthUser = (

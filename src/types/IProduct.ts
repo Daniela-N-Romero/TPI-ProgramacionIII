@@ -1,10 +1,12 @@
-export interface Product {
+import type { ICategory } from './ICategory'
+
+export interface IProduct {
     id: number;
-    name: string;
-    description: string;
-    price: number;
+    nombre: string;
+    precio: number;
+    descripcion: string;
     stock: number;
-    category: string;
-    imageUrl: string;
-    available: boolean;
+    imagen: string;
+    disponible: boolean;
+    categoria: ICategory;
 }

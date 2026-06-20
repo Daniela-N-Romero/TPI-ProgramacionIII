@@ -1,11 +1,10 @@
-import type { IUser} from "../types/IUser";
-import type { IUserStorage} from "../types/IUserStorage";
+import type { IUserDTO, IUserStorage} from "../types/IUser";
 
 
 //funciones para acceder y modificar la sesion activa de usuario,
 //se mantienen porque no se especifica en el TPI que no trateremos a la autenticacion así
 //por motivos pedagogicos 
-export const loginUser = (user: IUser) => {
+export const loginUser = (user: IUserDTO) => {
   const parseUser = JSON.stringify(user);
   localStorage.setItem("userData", parseUser);
 };
