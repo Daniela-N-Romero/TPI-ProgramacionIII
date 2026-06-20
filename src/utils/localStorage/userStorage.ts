@@ -31,3 +31,7 @@ export const saveUser = (user: IUserStorage) => {
   users.push(user)
   localStorage.setItem("users", JSON.stringify(users));
 };
+
+// export const updateUser = (user: IUserStorage) => {
+
+// };

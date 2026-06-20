@@ -15,7 +15,7 @@ const fetchFunction = async <T>(url: string, errorMessage: string): Promise<T>=>
     return data;
   } catch (error) {
     console.error(errorMessage, error);
-    throw error;
+    throw error;+
   }
 }
 
