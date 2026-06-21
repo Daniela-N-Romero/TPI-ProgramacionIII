@@ -8,12 +8,14 @@ export function getCart(): ICartItem[] {
 }
 
 // Agregar o actualizar cantidad si ya existe
+
+//TO DO: respetar el stock disponible 
 export function addToCart(product: IProduct, cantidad: number = 1): void {
   const cart = getCart();
   const itemIndex = cart.findIndex(item => item.producto.id === product.id);
 
   if (itemIndex !== -1) {
-    // Si ya existe, sumamos la cantidad respetando el stock disponible si fuera necesario
+    // Si ya existe, sumamos la cantidad 
     cart[itemIndex].cantidad += cantidad;
     cart[itemIndex].subtotal = cart[itemIndex].cantidad * cart[itemIndex].producto.precio;
   } else {

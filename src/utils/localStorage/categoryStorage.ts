@@ -4,6 +4,10 @@ import type { ICategory } from "../../types/ICategory";
 //funciones de localStorage que se mantienen para guardar categorias nuevas, 
 //ya que el TPI especifica que no deben guardarse en el json.
 
+export const importCategories = () => {
+    const categories = getCategories()
+    localStorage.setItem("categories", JSON.stringify(categories));
+}
 
 export const getCategories = (): ICategory[] => {
     const categories = localStorage.getItem("categories")

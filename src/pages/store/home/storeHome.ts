@@ -1,5 +1,4 @@
 import { validarAccesoRuta, obtenerEstadoCliente, navigate } from "../../../../src/utils/guards/guards";
-import { agregarAlCarrito } from "../../../../src/utils/localStorage/cartStorage"
 
 if (validarAccesoRuta()) { //si tiene acceso permitido a la ruta...
   const { isInvitado, isAdmin } = obtenerEstadoCliente();
@@ -13,9 +12,11 @@ if (validarAccesoRuta()) { //si tiene acceso permitido a la ruta...
       btnAgregar.addEventListener("click", () => {
         navigate("/login.html");
       });
-    } else {
-      // Flujo normal de usuario logueado
-      btnAgregar.addEventListener("click", () => agregarAlCarrito(productoId));
-    }
+    } 
   }
+}
+
+()=>
+{
+  
 }
