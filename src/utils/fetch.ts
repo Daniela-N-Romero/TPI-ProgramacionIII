@@ -20,19 +20,19 @@ const fetchFunction = async <T>(url: string, errorMessage: string): Promise<T> =
 }
 
 
-export async function getUsers(): Promise<IUserStorage[]> {
+export async function fetchUsers(): Promise<IUserStorage[]> {
   return await fetchFunction<IUserStorage[]>("/data/usuarios.json", "Error al buscar los usuarios.")
 }
 
-export async function getProducts(): Promise<IProduct[]> {
+export async function fetchProducts(): Promise<IProduct[]> {
   return await fetchFunction<IProduct[]>("/data/productos.json", "Error al buscar los productos.");
 }
 
-export async function getCategories(): Promise<ICategory[]> {
+export async function fetchCategories(): Promise<ICategory[]> {
   return await fetchFunction<ICategory[]>("/data/categorias.json", "Error al buscar las categorías.");
 }
 
-export async function getOrders(): Promise<IOrder[]> {
+export async function fetchOrders(): Promise<IOrder[]> {
   return await fetchFunction<IOrder[]>("/data/pedidos.json", "Error al buscar los pedidos.");
 }
 

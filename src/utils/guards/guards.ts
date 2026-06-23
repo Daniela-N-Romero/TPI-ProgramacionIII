@@ -1,5 +1,5 @@
 // src/auth/guards.ts
-import { getUser } from '../localStorage/userStorage'; 
+import { getActiveUser } from '../localStorage/userStorage'; 
 
 type Rol = "ADMIN" | "USUARIO";
 type TipoUsuario = Rol | "INVITADO";
@@ -17,7 +17,7 @@ export const navigate = (route: string) => {
 
 //ffuncion usada cuando se accede a cualquier pagina
 export const validarAccesoRuta = () => {
-  const user = getUser();
+  const user = getActiveUser();
   // Si no hay usuario y tiene loggedIn, o no existe, es INVITADO
   const rolActual: TipoUsuario = (user && user.loggedIn) ? user.rol : "INVITADO";
   
@@ -46,11 +46,12 @@ export const validarAccesoRuta = () => {
 };
 
 export const obtenerEstadoCliente = () => {
-  const user = getUser();
+  const user = getActiveUser();
   return {
     isAdmin: user?.loggedIn && user.rol === "ADMIN",
     isUsuario: user?.loggedIn && user.rol === "USUARIO",
     isInvitado: !user || !user.loggedIn,
-    usuarioId: user?.id || null
+    usuarioId: user?.id || null,
+    usuarioNombre: user?.nombre || null
   };
 };

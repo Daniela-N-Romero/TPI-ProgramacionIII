@@ -314,7 +314,13 @@ a:hover {
     text-decoration: none;
     color: var(--secondary-color);
     font-weight: 500;
+    margin-top: 0;
 }
+.user-name{
+    font-weight: bold; 
+    color: var(--primary-color);
+}
+
 
 .app-container {
     display: flex;

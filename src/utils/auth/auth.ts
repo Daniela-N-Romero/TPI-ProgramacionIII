@@ -1,14 +1,14 @@
 
 import type { Rol, IUserStorage } from "../../types/IUser";
-import { getUser, removeUser } from "../localStorage/userStorage";
-import { getUsers } from "../fetch"
+import { getActiveUser, removeActiveUser } from "../localStorage/userStorage";
+import { fetchUsers } from "..//fetch"
 import { navigate } from "../guards/guards"
 
 
 //funcion que busca un usuario por mail
 export async function findUserByEmail(email:string): Promise<IUserStorage | null> {
     try{        
-        const users = await getUsers();
+        const users = await fetchUsers();
         const user = users.find(u => u.mail === email) || null;
         return user;
     }catch(error){
@@ -19,7 +19,7 @@ export async function findUserByEmail(email:string): Promise<IUserStorage | null
 
 //eliminar sesion activa y redirigir a la tienda en modo invitado
 export const logout = () => {
-  removeUser();
+  removeActiveUser();
   navigate("/tienda");
 };
 
@@ -57,7 +57,7 @@ export const validatePassword = (password: string): boolean => {
     redireccion: string, // ruta a la que se redirige si el usuario no tiene el rol requerido
   ) => {
   
-    const user = getUser();
+    const user = getActiveUser();
       
     if (!user) { // no hay usuario activo
       navigate("/login");

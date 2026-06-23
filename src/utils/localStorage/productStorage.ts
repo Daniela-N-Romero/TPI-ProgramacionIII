@@ -1,30 +1,15 @@
 import type { IProduct } from "../../types/IProduct";
+import { fetchProducts } from "../fetch"
+import { getElementById, removeElementById, saveOrUpdate, getElementsFromStorage, importElementsArray } from "./storageBase"
 
 
-export function getProducts(): IProduct[] {
-  const products = localStorage.getItem("products");
-  return products? JSON.parse(products) : [];
-}
+//Funciones para traer, modificar, crear y eliminar datos del storage
+//(para no modificar JSON original como se solicito en consigna TPI)
+export const getProduct = (id: number) => getElementById<IProduct>(id,"products");
+export const getProducts = () => getElementsFromStorage<IProduct>("products");
+export const removeProduct = (id: number) => removeElementById(id, "products")
+export const saveOrUpdateProduct = (product: IProduct)  => saveOrUpdate(product ,"products")
 
-// Crear o Modificar un producto
-export function saveProduct(product: IProduct) {
-  const products = getProducts();
-  const index = products.findIndex(p => p.id === product.id);
+//importar datos del JSON
+export const importProducts = async () => importElementsArray(fetchProducts,"products")
 
-  if (index !== -1) {
-    // Modificar producto existente
-    products[index] = product;
-  } else {
-    // Crear producto nuevo 
-    product.id = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
-    products.push(product);
-  }
-  localStorage.setItem("products", JSON.stringify(products));
-}
-
-// Eliminar un producto 
-export function removeProduct(id: number){
-  const products = getProducts();
-  products.filter(c => c.id != id)  
-  localStorage.setItem("products", JSON.stringify(products));
-}

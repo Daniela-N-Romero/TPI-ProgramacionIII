@@ -1,10 +1,10 @@
-import { getUser } from "./localStorage/userStorage";
 import { getCategories } from "./localStorage/categoryStorage";
 import { getProducts } from "./localStorage/productStorage";
 import { getCart, addToCart } from "./localStorage/cartStorage";
 import { logout } from "./auth/auth";
+import { obtenerEstadoCliente } from "./guards/guards";
 
-const user = getUser();
+const user = obtenerEstadoCliente();
 
 const renderNavbar = () => {
     const navContainer = document.getElementById('nav-links') as HTMLElement;
@@ -23,20 +23,20 @@ const renderNavbar = () => {
     }
     
     
-    if (user?.rol === "ADMIN") {
+    if (user.isAdmin) {
         navContainer.innerHTML = `
                 <li><a href="${links.storeHome}" id="nav-store">Tienda</a></li>
                 <li><a href="${links.adminHome}" id="nav-admin" class="active">Panel Admin</a></li>
-                <li class="user-name">${user.name}</li>
+                <li class="user-name">${user.usuarioNombre}</li>
                 <li><button class="btn btn-secondary" id="btn-logout">Cerrar Sesión</button></li>
             `;
 
-    } else if (user?.rol === "USUARIO") {
+    } else if (user.isUsuario) {
         navContainer.innerHTML = `
                 <li><a href="${links.storeHome}" class="active">Inicio</a></li>
                 <li><a href="${links.clientOrders}">Mis Pedidos</a></li>
                 <li><a href="${links.cart}" class="cart-icon">🛒 Carrito <span class="badge">1</span></a></li>
-                <li class="user-name">${user.name}</li>
+                <li class="user-name">${user.usuarioNombre}</li>
                 <li><button class="btn btn-secondary" id="btn-logout">Cerrar Sesión</button></li>
                 ;`
     } else {
@@ -54,7 +54,26 @@ const renderNavbar = () => {
 const renderSidebar = () => {
     const appSidebar = document.getElementById('app-sidebar') as HTMLElement;
     
-    if (user?.rol === "ADMIN") {
+    if (user.isUsuario || user.isInvitado || window.location.pathname === "/tienda") {
+    
+            const categorias =  getCategories();
+    
+            const categoriasHtml = categorias
+                .map(cat => `<li><a href="#" data-categoria-id="${cat.id}">${cat.nombre}</a></li>`)
+                .join("");
+    
+            appSidebar.innerHTML = `
+                <h3 class="sidebar-title">Categorías</h3>
+                <h4 class="sidebar-subtitle">Filtra por categoría</h4>
+                <ul class="sidebar-menu">
+                    <li class="active"><a href="#" data-categoria-id="todas">📦 Todos los productos</a></li>
+                    ${categoriasHtml}            
+                </ul>
+                `;
+                
+            filtrarPorDeCategoria();
+
+        } else if (user.isAdmin && window.location.pathname !== "/tienda") {
         appSidebar.innerHTML = `
             <h3 class="sidebar-title">Administracíon</h3>
             <h4 class="sidebar-subtitle">Panel de control</h4>
@@ -67,26 +86,8 @@ const renderSidebar = () => {
                 <li><a href="/tienda">Ver Tienda</a></li>
             </ul>
             `;
-
-    } else {
-
-        const categorias =  getCategories();
-
-        const categoriasHtml = categorias
-            .map(cat => `<li><a href="#" data-categoria-id="${cat.id}">${cat.nombre}</a></li>`)
-            .join("");
-
-        appSidebar.innerHTML = `
-            <h3 class="sidebar-title">Categorías</h3>
-            <h4 class="sidebar-subtitle">Filtra por categoría</h4>
-            <ul class="sidebar-menu">
-                <li class="active"><a href="#" data-categoria-id="todas">📦 Todos los productos</a></li>
-                ${categoriasHtml}            
-            </ul>
-            `;
             
-        filtrarPorDeCategoria();
-    }
+        }  
 
 
 }

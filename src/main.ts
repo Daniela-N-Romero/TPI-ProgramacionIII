@@ -1,13 +1,22 @@
-import { getUser, getUsers } from "./utils/localStorage/userStorage.ts"
+import { getActiveUser, importUsers } from "./utils/localStorage/userStorage.ts"
 import { rolRedirect  } from "./utils/auth/auth.ts";
 import {navigate} from "./utils/guards/guards.ts"
-import { getProducts } from "./utils/localStorage/productStorage.ts";
-import { getOrders } from "./utils/localStorage/orderStorage.ts";
+import { importProducts } from "./utils/localStorage/productStorage.ts";
+import { importOrders } from "./utils/localStorage/orderStorage.ts";
 import { importCategories } from "./utils/localStorage/categoryStorage.ts";
 
 document.addEventListener('DOMContentLoaded', () => {
+    
+    const dbLoad= ()=>{
+        importUsers()
+        importProducts()
+        importOrders()
+        importCategories()
+    }
 
-    const user = getUser();
+    dbLoad();
+    
+    const user = getActiveUser();
     if (user)  {
         rolRedirect(user.rol, "/adminPanel", "/tienda");
     }
@@ -17,14 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const guestBtn = document.getElementById('btn-landing-guest') as HTMLElement;
     guestBtn.addEventListener('click', ()=> navigate("/tienda"))
 
-    const dbLoad= ()=>{
-        getUsers()
-        getProducts()
-        getOrders()
-        importCategories()
-    }
-
-    dbLoad();
 
 });
 

@@ -1,39 +1,13 @@
 import type { ICategory } from "../../types/ICategory";
+import { fetchCategories } from "../fetch"
+import { getElementsFromStorage, importElementsArray, removeElementById, saveOrUpdate } from "./storageBase"
 
+//Funciones para traer, modificar, crear y eliminar datos del storage
+//(para no modificar JSON original como se solicito en consigna TPI)
+export const getCategories = () => getElementsFromStorage<ICategory>("categories");
+export const removeCategory = (id: number) => removeElementById(id, "categories")
+export const saveOrUpdateCategory = (category: ICategory) => saveOrUpdate(category, "categories")
 
-//funciones de localStorage que se mantienen para guardar categorias nuevas, 
-//ya que el TPI especifica que no deben guardarse en el json.
+//importar datos del JSON
+export const importCategories = async () => importElementsArray(fetchCategories,"categories")
 
-export const importCategories = () => {
-    const categories = getCategories()
-    localStorage.setItem("categories", JSON.stringify(categories));
-}
-
-export const getCategories = (): ICategory[] => {
-    const categories = localStorage.getItem("categories")
-    return categories? JSON.parse(categories) : [] 
-}
-
-export const removeCategory = (id: number) => {
-  const categories = getCategories();
-  categories.filter(c => c.id != id)  
-  localStorage.setItem("categories", JSON.stringify(categories));
-};
-
-
-export function saveCategory(newCategory: ICategory){
-
-  const categories = getCategories();
-  const index = categories.findIndex(c => c.id === newCategory.id);
-  
-  if (index !== -1) { 
-    // Modificar categoria existente
-    categories[index] = newCategory;
-  } else {
-    // Crear categoria nuevo 
-    newCategory.id = categories.length > 0 ? Math.max(...categories.map(c => c.id)) + 1 : 1;
-    categories.push(newCategory);
-  }
-
-  localStorage.setItem("categories", JSON.stringify(categories));
-}
