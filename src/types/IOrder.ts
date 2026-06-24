@@ -1,5 +1,5 @@
 import type { IProduct } from "./IProduct";
-import type { IBaseUser } from "./IUser";
+import type { IUserDTO } from "./IUser";
 
 export interface IOrder {
     id: number;
@@ -12,8 +12,8 @@ export interface IOrder {
         subtotal: number;
         producto: IProduct;
     }[];
-    usuarioDto: IBaseUser;
+    usuarioDto: IUserDTO;
 }
 
-type Estado = "EN_PREPARACION" | "CONFIRMADO" | "PENDIENTE" | "ENTREGADO";
-type FormaPago = "TRANSFERENCIA" | "EFECTIVO" | "TARJETA" ;
+export type Estado = "EN_PREPARACION" | "CONFIRMADO" | "PENDIENTE" | "ENTREGADO";
+export type FormaPago = "TRANSFERENCIA" | "EFECTIVO" | "TARJETA" ;

@@ -6,9 +6,9 @@ type TipoUsuario = Rol | "INVITADO";
 
 // Definimos qué páginas tiene permitido cargar cada rol
 const MAPA_ACCESO_PAGINAS: Record<TipoUsuario, string[]> = {
-    ADMIN: ["/inicio", "/adminPanel", "/pedidos", "/tienda", "/detalle_producto"],
+    ADMIN: ["/inicio", "/adminPanel", "/pedidos", "/tienda", "/producto"],
     USUARIO: ["/inicio", "/tienda", "/producto", "/pedidos", "/carrito"],
-    INVITADO: ["/inicio", "/tienda", "/detalle_producto", "/login", "/registro"]
+    INVITADO: ["/inicio", "/tienda", "/producto", "/login", "/registro"]
 };
 
 export const navigate = (route: string) => {
@@ -30,6 +30,7 @@ export const validarAccesoRuta = () => {
 
   if (!tieneAcceso) {
     // Redirecciones 
+    console.log(rolActual)
     if (rolActual === "INVITADO") {
       navigate("/login");
     } else if (rolActual === "ADMIN") {

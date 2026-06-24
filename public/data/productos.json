@@ -5,7 +5,7 @@
     "precio": 4500,
     "descripcion": "Carne 150g, lechuga, tomate, cebolla morada y mayonesa",
     "stock": 50,
-    "imagen": "https://foodish-api.com/images/burger/burger1.jpg",
+    "imagen": "https://cdn.pixabay.com/photo/2017/03/05/01/40/burger-2117465_1280.jpg",
     "disponible": true,
     "categoria": { "id": 1, "nombre": "Hamburguesas", "descripcion": "Hamburguesas artesanales con carne premium" }
   },
@@ -15,7 +15,7 @@
     "precio": 6200,
     "descripcion": "Doble carne 150g c/u, cheddar, panceta y salsa barbacoa",
     "stock": 40,
-    "imagen": "https://foodish-api.com/images/burger/burger2.jpg",
+    "imagen": "https://cdn.pixabay.com/photo/2025/06/02/13/13/burger-9637200_1280.jpg",
     "disponible": true,
     "categoria": { "id": 1, "nombre": "Hamburguesas", "descripcion": "Hamburguesas artesanales con carne premium" }
   },
@@ -25,7 +25,7 @@
     "precio": 5500,
     "descripcion": "Carne 150g, huevo, jamón, queso, lechuga y tomate",
     "stock": 30,
-    "imagen": "https://foodish-api.com/images/burger/burger3.jpg",
+    "imagen": "https://cdn.pixabay.com/photo/2025/06/02/11/47/hamburger-9636930_1280.jpg",
     "disponible": true,
     "categoria": { "id": 1, "nombre": "Hamburguesas", "descripcion": "Hamburguesas artesanales con carne premium" }
   },
@@ -45,7 +45,7 @@
     "precio": 3800,
     "descripcion": "Mozzarella, salsa de tomate y orégano",
     "stock": 25,
-    "imagen": "https://foodish-api.com/images/pizza/pizza1.jpg",
+    "imagen": "https://cdn.pixabay.com/photo/2020/08/19/14/43/pizza-5501065_1280.jpg",
     "disponible": true,
     "categoria": { "id": 2, "nombre": "Pizzas", "descripcion": "Pizzas al horno de barro" }
   },
@@ -55,7 +55,7 @@
     "precio": 4500,
     "descripcion": "Mozzarella, rodajas de tomate, ajo, aceitunas y albahaca",
     "stock": 25,
-    "imagen": "https://foodish-api.com/images/pizza/pizza2.jpg",
+    "imagen": "https://cdn.pixabay.com/photo/2024/05/15/14/02/pizza-8763646_960_720.jpg",
     "disponible": true,
     "categoria": { "id": 2, "nombre": "Pizzas", "descripcion": "Pizzas al horno de barro" }
   },
@@ -65,7 +65,7 @@
     "precio": 4800,
     "descripcion": "Mozzarella, cebolla caramelizada, jamón y aceitunas",
     "stock": 20,
-    "imagen": "https://foodish-api.com/images/pizza/pizza3.jpg",
+    "imagen": "https://cdn.pixabay.com/photo/2020/04/12/12/05/pizza-5033971_1280.jpg",
     "disponible": true,
     "categoria": { "id": 2, "nombre": "Pizzas", "descripcion": "Pizzas al horno de barro" }
   },
@@ -75,7 +75,7 @@
     "precio": 5200,
     "descripcion": "Mozzarella, pepperoni, morrón, cebolla, huevo y aceitunas",
     "stock": 15,
-    "imagen": "https://foodish-api.com/images/pizza/pizza4.jpg",
+    "imagen": "https://cdn.pixabay.com/photo/2017/02/15/10/57/pizza-2068272_1280.jpg",
     "disponible": true,
     "categoria": { "id": 2, "nombre": "Pizzas", "descripcion": "Pizzas al horno de barro" }
   },

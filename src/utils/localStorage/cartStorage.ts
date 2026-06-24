@@ -1,17 +1,24 @@
 import type { IProduct } from '../../types/IProduct';
-import type { ICartItem } from '../../types/ICart'
-import { removeElement, removeElementById, getElementsFromStorage } from "./storageBase"
-
+import type { ICartItem} from '../../types/ICart'
+import { removeElement, removeElementById, getElementsFromStorage, saveArray } from "./storageBase"
 
 //Funciones para traer, modificar, crear y eliminar datos del storage
 //(para no modificar JSON original como se solicito en consigna TPI)
-export const getCart = () => getElementsFromStorage<ICartItem>("users");
+export const getCart = () => getElementsFromStorage<ICartItem>("cart");
 export const removeFromCart = (productId: number) => removeElementById(productId, "cart");
 export const clearCart = () => removeElement("cart");
+export const saveCart = (cart: ICartItem[]) => saveArray(cart, "cart");
+
+export const getCartByEmail = (email:string): ICartItem[] =>{
+  return JSON.parse(localStorage.getItem(`cart_${email}`) || "[]");
+}
+export const saveCartByEmail = (email:string, cart: ICartItem[]) =>{
+  localStorage.setItem(`cart_${email}`, JSON.stringify(cart));
+} 
 
 // Agregar al carito desde la tienda (o actualizar cantidad si ya existe) - TO DO: respetar el stock disponible 
-export function addToCart(product: IProduct, cantidad: number = 1): void {
-  const cart = getCart();
+export function addToCart(product: IProduct, cantidad: number = 1, userEmail: string): void {
+  const cart = getCartByEmail(userEmail);
   const itemIndex = cart.findIndex(item => item.producto.id === product.id);
 
   if (itemIndex !== -1) {                       // Si ya existe, sumamos la cantidad 
@@ -25,8 +32,9 @@ export function addToCart(product: IProduct, cantidad: number = 1): void {
     });
   }
 
-  localStorage.setItem("cart", JSON.stringify(cart));
+  saveCartByEmail(userEmail, cart);
 }
+
 
 //FUNCIONES AUXILIARES 
 
@@ -55,6 +63,6 @@ export function updateCartItemQuantity(productId: number, nuevaCantidad: number)
       cart[itemIndex].cantidad = nuevaCantidad;
       cart[itemIndex].subtotal = nuevaCantidad * cart[itemIndex].producto.precio;
     }
-    localStorage.setItem("cart", JSON.stringify(cart));
+    saveCart(cart);
   }
 }

@@ -1,8 +1,8 @@
 import { getCategories } from "./localStorage/categoryStorage";
-import { getProducts } from "./localStorage/productStorage";
-import { getCart, addToCart } from "./localStorage/cartStorage";
+import { getCartByEmail } from "./localStorage/cartStorage";
 import { logout } from "./auth/auth";
 import { obtenerEstadoCliente } from "./guards/guards";
+import { getActiveUser } from "./localStorage/userStorage";
 
 const user = obtenerEstadoCliente();
 
@@ -53,7 +53,7 @@ const renderNavbar = () => {
 
 const renderSidebar = () => {
     const appSidebar = document.getElementById('app-sidebar') as HTMLElement;
-    
+    if (appSidebar){
     if (user.isUsuario || user.isInvitado || window.location.pathname === "/tienda") {
     
             const categorias =  getCategories();
@@ -70,8 +70,6 @@ const renderSidebar = () => {
                     ${categoriasHtml}            
                 </ul>
                 `;
-                
-            filtrarPorDeCategoria();
 
         } else if (user.isAdmin && window.location.pathname !== "/tienda") {
         appSidebar.innerHTML = `
@@ -88,120 +86,23 @@ const renderSidebar = () => {
             `;
             
         }  
-
-
+}
 }
 
-const filtrarPorDeCategoria = () => {
-
-    const linksCategoria = document.querySelectorAll('#app-sidebar .sidebar-menu a[data-categoria-id]');
-
-    linksCategoria.forEach(link => {
-        link.addEventListener('click', async (e) => {
-            e.preventDefault(); // Evitamos que la página se recargue o scrollee al inicio
-
-            const target = e.currentTarget as HTMLAnchorElement;
-            const categoriaIdRaw = target.dataset.categoriaId;
-
-            if (!categoriaIdRaw) return;
-
-            // Manejo visual
-            linksCategoria.forEach(l => l.parentElement?.classList.remove('active'));
-            target.parentElement?.classList.add('active');
-
-            // 
-            const categoriaId = categoriaIdRaw === 'todas' ? 'todas' : Number(categoriaIdRaw);
-            
-            renderProductosTienda(categoriaId);
-        });
-    });
+export const actualizarBadgeNavbar = (): void => {
+  const badge = document.querySelector('#nav-links .badge') as HTMLElement;
+  if (!badge) return;
+  const user = getActiveUser(); 
+  const cart = getCartByEmail(user.mail);
+  const totalItems = cart.reduce((acc, item) => acc + item.cantidad, 0);
+  badge.innerText = totalItems.toString();
 };
 
-
- const renderProductosTienda = (categoriaId: number | 'todas' = 'todas') => {
-    const productsContainer = document.getElementById('products-container');
-    if (!productsContainer) return;
-    const todosLosProductos =  getProducts();
-
-    const productosFiltrados = todosLosProductos.filter(producto => {
-        const perteneceACategoria = categoriaId === 'todas' || producto.categoria.id === categoriaId;
-        return perteneceACategoria && producto.disponible;
-    });
-
-    productsContainer.innerHTML = '';
-    if (productosFiltrados.length === 0) {
-        productsContainer.innerHTML = `<p class="no-products">No hay productos disponibles en esta categoría por el momento.</p>`;
-        return;
-    }
-
-    productosFiltrados.forEach(producto => {
-        const card = document.createElement('div');
-        card.className = 'product-card';
-        card.innerHTML = `
-            <img src="${producto.imagen}" alt="${producto.nombre}" class="product-img">
-            <div class="product-info">
-                <h4>${producto.nombre}</h4>
-                <p>${producto.descripcion}</p>
-                <span class="product-price">$${producto.precio}</span>
-                <span class="product-stock">Stock: ${producto.stock}</span>
-                <button class="btn btn-primary btn-add-cart" data-id="${producto.id}">Agregar 🛒</button>
-            </div>
-        `;
-        productsContainer.appendChild(card);
-    });
-
-};
-
-export const configurarBotonesCarrito = () => {
-    const productsContainer = document.getElementById('products-container');
-    if (!productsContainer) return;
-
-    // Removemos cualquier listener previo para evitar que se dupliquen los eventos
-    productsContainer.replaceWith(productsContainer.cloneNode(true));
-    
-    // Volvemos a capturar el contenedor limpio
-    const cleanContainer = document.getElementById('products-container')!;
-
-    // Escuchamos los clics en todo el contenedor de productos
-    cleanContainer.addEventListener('click', async (e) => {
-        const target = e.target as HTMLElement;
-
-        if (target && target.classList.contains('btn-add-cart')) {
-            const productoId = Number(target.dataset.id);
-            if (!productoId) return;
-
-
-            try {
-                const productos =  getProducts();
-                const productoSeleccionado = productos.find(p => p.id === productoId);
-
-                if (!productoSeleccionado) {
-                    alert("No se pudo encontrar el producto.");
-                    return;
-                }
-
-                addToCart(productoSeleccionado, 1);
-                actualizarBadgeNavbar();
-
-            } catch (error) {
-                console.error("Error al añadir al carrito:", error);
-            }
-        }
-    });
-};
-
-const actualizarBadgeNavbar = () => {
-    const badge = document.querySelector('#nav-links .badge') as HTMLElement;
-    if (!badge) return;
-
-    const cart = getCart();
-    const totalItems = cart.reduce((acc, item) => acc + item.cantidad, 0);
-    badge.innerText = totalItems.toString();
-};
 
 const renderLayout = () => {
     renderNavbar();
     renderSidebar();
+    actualizarBadgeNavbar();
 }
 
 renderLayout();

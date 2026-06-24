@@ -15,7 +15,7 @@ export default defineConfig({
                 storeHome: resolve(__dirname, "src/pages/store/home/storeHome.html"),
                 cart: resolve(__dirname, "src/pages/store/cart/cart.html"),
                 productDetail: resolve(__dirname, "src/pages/store/productDetail/productDetail.html"),
-                clientOrders: resolve(__dirname, "src/pages/orders/orders.html")                
+                clientOrders: resolve(__dirname, "src/pages/client/orders/orders.html")                
             },
         },
     },
@@ -34,9 +34,8 @@ export default defineConfig({
                     if (req.url === "/manageOrders"){req.url = "/src/pages/admin/orders/orders.html";}
                     if (req.url === "/tienda") {req.url = "/src/pages/store/home/storeHome.html"; }
                     if (req.url === "/carrito") {req.url = "/src/pages/store/cart/cart.html"; }
-                    if (req.url === "/producto") {req.url = "/src/pages/store/productDetail/productDetail.html"; }
-                    if (req.url === "/pedidos") {req.url = "/src/pages/orders/orders.html";}    
-
+                    if (req.url === "/pedidos") {req.url = "/src/pages/client/orders/orders.html";}    
+                    if (req.url?.startsWith("/producto")) { req.url = "/src/pages/store/productDetail/productDetail.html";}
                     next();
                 });
             },

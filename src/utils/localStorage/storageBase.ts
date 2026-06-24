@@ -17,6 +17,8 @@ export const getElementsFromStorage = <T>(storageItem: string): T[] => {
     return array? JSON.parse(array) : [] 
 };
 
+//Guardat un item en Storage
+export const saveArray = <T>(array: T[], storageItem: string): void => localStorage.setItem(storageItem, JSON.stringify(array));
 
 //Trear  un elemento filtrando un array de elementos del Local Storage con un id
 export const getElementById =  <T extends { id: number }>(id: number, storageItem: string): T | null => {
@@ -28,8 +30,8 @@ export const getElementById =  <T extends { id: number }>(id: number, storageIte
 //Eliminar un elemento filtrando un array de elementos del Local Storage con un id
 export const removeElementById = <T extends { id: number }>(id: number, storageItem: string) => {
   const array = getElementsFromStorage<T>(storageItem);
-  array.filter(item => item.id != id)  
-  localStorage.setItem(storageItem, JSON.stringify(array));
+  const arrayFiltrado = array.filter(item => item.id != id)  
+  localStorage.setItem(storageItem, JSON.stringify(arrayFiltrado));
 };
 
 
@@ -60,11 +62,3 @@ export const importElementsArray = async <T>(fetchFunction: () => Promise<T[]>, 
     localStorage.setItem(storageItem, JSON.stringify(array));
 };
 
-
-
-
-// export const saveElement = async <T>(element: T, fetchFunction: () => Promise<T[]>, storageItem: string): Promise<void> => {
-//   const array = await fetchFunction();
-//   array.push(element)
-//   localStorage.setItem(storageItem, JSON.stringify(array));
-// };
