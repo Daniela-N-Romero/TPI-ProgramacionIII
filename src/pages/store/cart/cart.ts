@@ -1,40 +1,27 @@
 import { ModalService } from "../../../utils/modal";
 import type { FormaPago, IOrder } from "../../../types/IOrder";
-
-import {
-    clearCart,
-    removeFromCart,
-    getCartTotal,
-    getCartQuantity,
-    updateCartItemQuantity,
-    getCartByEmail
-} from "../../../utils/localStorage/cartStorage";
-
+import { clearCart, removeFromCart, getCartTotal, getCartQuantity, updateCartItemQuantity, getCartByEmail} from "../../../utils/localStorage/cartStorage";
 import { getActiveUser } from "../../../utils/localStorage/userStorage";
-import { getOrdersByEmail, saveOrdersByEmail } from "../../../utils/localStorage/orderStorage";
+import { registrarNuevoPedidoDelCliente } from "../../../utils/localStorage/orderStorage";
 
-// Configuración de constantes fijas (Documentado en README)
+// Envío (Documentado en README)
 const COSTO_ENVIO = 500;
 
+//Al cargar la página se inicia el servicio de modales y se si el usuario tiene permiso se renderiza el main.
 document.addEventListener("DOMContentLoaded", () => {
     ModalService.init();
-    console.log("hola")
     const user = getActiveUser();
-    console.log(user)
     const main = document.querySelector(".main-content");
-    console.log(main)
     if (user.rol === "USUARIO") {
         main?.classList.add("main-content-block")
         renderizarCarrito(user.mail);
     }
 });
 
-// Obtener el usuario autenticado (simulado o traído de sesión)
-
-// Renderizado 
-const renderizarCarrito = (email: string): void => {
+// Renderizado de carrito
+const renderizarCarrito = async (email: string): Promise<void> => {
     const container = document.getElementById("cart-content-wrapper")!;
-    const cart = getCartByEmail(email);
+    const cart = await getCartByEmail(email);
 
     if (cart.length === 0) {
         container.innerHTML = ` º
@@ -71,9 +58,8 @@ const renderizarCarrito = (email: string): void => {
         itemsContainer.appendChild(itemCard);
     });
 
-    // 💰 Aprovechamos tus funciones de totales
-    const subtotal = getCartTotal();
-    const totalUnidades = getCartQuantity();
+    const subtotal =  await getCartTotal(email);
+    const totalUnidades =  await getCartQuantity(email);
     const total = subtotal + COSTO_ENVIO;
 
     document.getElementById("summary-subtotal")!.textContent = `$${subtotal.toFixed(2)}`;
@@ -84,47 +70,50 @@ const renderizarCarrito = (email: string): void => {
     vincularEventosAcciones(email);
 };
 
-// Vinculación de eventos
+// Vinculación de eventos: agregar/restar productos / vaciar carrito
 const vincularEventosAcciones = (email: string): void => {
-    document.getElementById("cart-items-container")!.onclick = (e) => {
+    document.getElementById("cart-items-container")!.onclick = async (e) => {
         const target = e.target as HTMLElement;
         const id = Number(target.dataset.id);
         if (!id) return;
 
-        const cart = getCartByEmail(email);
+        const cart = await getCartByEmail(email);
         const item = cart.find(i => i.producto.id === id);
         if (!item) return;
 
         if (target.classList.contains("btn-plus")) {
             //  Validación respetando el stock disponible 
             if (item.cantidad >= item.producto.stock) {
+                //TO DO : cambiar alert.
                 alert(`Lo sentimos, no hay más stock disponible (${item.producto.stock} unidades máx).`);
                 return;
             }
             //sumamos 1 por cada click
-            updateCartItemQuantity(id, item.cantidad + 1);
+            await updateCartItemQuantity(id, item.cantidad + 1, email);
+            actualizarBadgeNavbar(await getCartQuantity(email))
 
         } else if (target.classList.contains("btn-minus")) {
             // Si tiene 1 solo y selecciona menos, updateCartItemQuantity lo va a filtrar/eliminar automáticamente
-            updateCartItemQuantity(id, item.cantidad - 1);
+            await updateCartItemQuantity(id, item.cantidad - 1, email);
+            actualizarBadgeNavbar(await getCartQuantity(email))
 
         } else if (target.classList.contains("btn-delete-item")) {
-            removeFromCart(id);
+            await removeFromCart(email, id);
+            renderizarCarrito(email);
         }
-
-        renderizarCarrito(email);
     };
 
     // Botón Vaciar Todo
     document.getElementById("btn-clear-cart")!.onclick = () => {
         if (confirm("¿Estás seguro de que deseas vaciar tu carrito?")) {
-            clearCart();
+            clearCart(email);
             renderizarCarrito(email);
         }
     };
 
+    //Manejar el confirmar compra
     document.getElementById("btn-proceed-checkout")!.onclick = () => {
-        abrirModalCheckout();
+        abrirModalCheckout(email);
     };
 };
 
@@ -134,8 +123,8 @@ const actualizarBadgeNavbar = (count: number) => {
 };
 
 /* --- CHECKOUT MODAL Y GENERACIÓN DE PEDIDO --- */
-const abrirModalCheckout = (): void => {
-    const totalPagar = getCartTotal() + COSTO_ENVIO;
+const abrirModalCheckout = async (email:string): Promise<void> => {
+    const totalPagar = await getCartTotal(email) + COSTO_ENVIO;
 
     const htmlFormCheckout = `
         <h2 style="margin-bottom: 20px; color: var(--primary-color);">Completar Pedido</h2>
@@ -185,10 +174,9 @@ const abrirModalCheckout = (): void => {
     });
 };
 
-const procesarConfirmacionPedido = (formaPago: FormaPago, total: number): void => {
+const procesarConfirmacionPedido = async (formaPago: FormaPago, total: number): Promise<void> => {
     const usuarioLogueado = getActiveUser();
-    const cart = getCartByEmail(usuarioLogueado.mail);
-
+    const cart = await getCartByEmail(usuarioLogueado.mail);
     const nuevoPedido: IOrder = {
         id: Date.now(),
         fecha: new Date().toLocaleDateString("es-AR"),
@@ -203,13 +191,13 @@ const procesarConfirmacionPedido = (formaPago: FormaPago, total: number): void =
         usuarioDto: usuarioLogueado,
     };
 
-    const pedidosHistoricos = getOrdersByEmail(usuarioLogueado.mail);
-    pedidosHistoricos.push(nuevoPedido);
-    saveOrdersByEmail(`cart_${usuarioLogueado.mail}`, pedidosHistoricos)
+    await registrarNuevoPedidoDelCliente(usuarioLogueado.mail, nuevoPedido)
 
-    clearCart();
+    clearCart(usuarioLogueado.mail);
+    actualizarBadgeNavbar(await getCartQuantity(usuarioLogueado.mail));
 
     ModalService.close();
+    //TO DO : Cambiar alert
     alert("¡Pedido realizado con éxito! Redirigiendo a tus pedidos...");
     window.location.href = "/pedidos";
 };

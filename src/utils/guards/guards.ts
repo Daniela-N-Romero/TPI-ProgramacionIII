@@ -8,7 +8,7 @@ type TipoUsuario = Rol | "INVITADO";
 const MAPA_ACCESO_PAGINAS: Record<TipoUsuario, string[]> = {
     ADMIN: ["/inicio", "/adminPanel", "/pedidos", "/tienda", "/producto"],
     USUARIO: ["/inicio", "/tienda", "/producto", "/pedidos", "/carrito"],
-    INVITADO: ["/inicio", "/tienda", "/producto", "/login", "/registro"]
+    INVITADO: ["/inicio", "/tienda", "/login", "/registro"]
 };
 
 export const navigate = (route: string) => {

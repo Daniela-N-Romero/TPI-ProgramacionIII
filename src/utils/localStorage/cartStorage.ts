@@ -1,17 +1,18 @@
 import type { IProduct } from '../../types/IProduct';
 import type { ICartItem } from '../../types/ICart'
-import { removeElementById, getElementsFromStorage, saveArray, removeElement } from "./storageBase"
+import { getElementsFromStorage, saveArray, removeElement } from "./storageBase"
 
 //Funciones para traer, modificar, crear y eliminar datos del carrtio de local storage
 
 export const getCartByEmail = async (email: string) => await getElementsFromStorage<ICartItem>(`cart_${email}`);
-
 export const saveCartByEmail = (email: string, cart: ICartItem[]) => saveArray(cart, `cart_${email}`);
-
-export const removeFromCart = (email: string, productId: number) => removeElementById(productId, `cart_${email}`);
-
 export const clearCart = (email: string) => removeElement(`cart_${email}`);
 
+export const removeFromCart = async (email: string, productId: number) => {
+  const cart = await getCartByEmail(email);
+  const cartFiltrado = cart.filter(item => item.producto.id !== productId);
+  saveCartByEmail(email, cartFiltrado);
+};
 
 // Agregar al carito desde la tienda (o actualizar cantidad si ya existe) - TO DO: respetar el stock disponible 
 export async function addToCart(product: IProduct, cantidad: number = 1, userEmail: string): Promise<void> {
@@ -51,6 +52,8 @@ export async function getCartQuantity(userEmail: string): Promise<number> {
 export async function updateCartItemQuantity(productId: number, nuevaCantidad: number, userEmail: string): Promise<void> {
   let cart = await getCartByEmail(userEmail);
   const itemIndex = cart.findIndex(item => item.producto.id === productId);
+  // console.log(cart[itemIndex].producto.id, " es el id del producto en el carrito. Y el indice en el carrito es ", itemIndex)
+
 
   if (itemIndex !== -1) {
     if (nuevaCantidad <= 0) {

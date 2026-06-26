@@ -24,7 +24,7 @@ if (validarAccesoRuta()) {
     actualizarBadgeNavbar();
 }
 
-function renderProductDetail(): void {
+async function renderProductDetail(): Promise<void> {
     const mainView = document.getElementById("main-view");
     if (!mainView) return;
 
@@ -38,7 +38,7 @@ function renderProductDetail(): void {
     }
 
     // 2. Buscamos el producto real en el localStorage
-    const producto = getProduct(productoId);
+    const producto = await getProduct(productoId);
 
     if (!producto) {
         mainView.innerHTML = `<p class="error-msg">El producto solicitado no existe. <a href="/tienda">Volver a la tienda</a></p>`;
@@ -114,7 +114,7 @@ function configurarComponentesDetalle(maxStock: number, isInvitado: boolean): vo
     });
 
     // Acción de agregar al carrito
-    btnAdd?.addEventListener("click", (e) => {
+    btnAdd?.addEventListener("click", async(e) => {
         if (isInvitado) {
             e.stopImmediatePropagation();
             alert("Debés iniciar sesión para añadir productos al carrito.");
@@ -124,7 +124,7 @@ function configurarComponentesDetalle(maxStock: number, isInvitado: boolean): vo
 
         const urlParams = new URLSearchParams(window.location.search);
         const productoId = Number(urlParams.get("id"));
-        const producto = getProduct(productoId);
+        const producto = await getProduct(productoId);
         const cantidadAAgregar = Number(inputQty.value);
 
         if (producto) {

@@ -1,13 +1,14 @@
 import { validarAccesoRuta, obtenerEstadoCliente } from "../../../../src/utils/guards/guards";
 import type { IOrder } from "../../../types/IOrder"
-import { getOrders } from "../../../utils/fetch"
+import { getOrdersByEmail } from "../../../utils/localStorage/orderStorage";
+import { getActiveUser } from "../../../utils/localStorage/userStorage";
 
 
 if (validarAccesoRuta()) {
   const { isAdmin, usuarioId } = obtenerEstadoCliente();
-
+  const user = getActiveUser();
   // traer los pedidos 
-  const todosLosPedidos = await getOrders()
+  const todosLosPedidos = await getOrdersByEmail(user.email)
   
   todosLosPedidos? () => {
       // Filtrado

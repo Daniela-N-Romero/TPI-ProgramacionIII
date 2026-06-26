@@ -36,7 +36,7 @@ const filtrarPorCategoria = (): void => {
 };
 
 
-const renderSegunCategoria = async (categoriaId: number | 'todas' = 'todas'): void => {
+const renderSegunCategoria = async (categoriaId: number | 'todas' = 'todas'): Promise<void> => {
   const productsContainer = document.getElementById('products-container');
   if (!productsContainer) return;
   const todosLosProductos = await getProducts();
@@ -108,7 +108,7 @@ const configurarBotonesCarrito = (container: HTMLElement): void => {
       if (verificarPermiso(e)) {
 
         try {
-          const productos = getProducts();
+          const productos = await getProducts();
           const productoSeleccionado = productos.find(p => p.id === productoId);
 
           if (!productoSeleccionado) {
@@ -117,9 +117,8 @@ const configurarBotonesCarrito = (container: HTMLElement): void => {
           }
 
           const user = getActiveUser();
-          console.log(user)
-          addToCart(productoSeleccionado, 1, user.mail );
-          actualizarBadgeNavbar();
+          await addToCart(productoSeleccionado, 1, user.mail );
+          await actualizarBadgeNavbar();
 
         } catch (error) {
           console.error("Error al añadir al carrito:", error);
