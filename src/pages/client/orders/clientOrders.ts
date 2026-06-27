@@ -1,16 +1,16 @@
 import { getOrdersByEmail } from '../../../utils/storage/orderStorage';
 import { getActiveUser } from '../../../utils/storage/userStorage';
-import { ModalService } from '../../../utils/modal';
+import { ModalService } from '../../../utils/modals/modal';
 import type { IUserDTO } from '../../../types/IUser';
-import { filtrarPedidosPorEstado, ordenarPedidosPorFechaDesc } from '../../admin/orders/orders';
+import { filtrarPedidosPorEstado, ordenarPedidosPorFechaDesc } from '../../../utils/orders/orders';
 import type { IOrder } from '../../../types/IOrder';
 
+ 
 document.addEventListener("DOMContentLoaded", () => {
   ModalService.init();
   const user = getActiveUser();
   const main = document.querySelector(".main-content");
-  console.log(main)
-  if (user.rol === "USUARIO") {
+  if (user?.rol === "USUARIO") {
     main?.classList.add("main-content-block")
     renderMisPedidos(user);
   }

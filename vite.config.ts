@@ -11,11 +11,11 @@ export default defineConfig({
                 adminHome: resolve(__dirname, "src/pages/admin/adminHome/home.html"),
                 categories: resolve(__dirname, "src/pages/admin/categories/categories.html"),
                 products: resolve(__dirname, "src/pages/admin/products/products.html"),
-                orders: resolve(__dirname, "src/pages/admin/orders/orders.html"),
+                orders: resolve(__dirname, "src/pages/admin/orders/manageOrders.html"),
                 storeHome: resolve(__dirname, "src/pages/store/home/storeHome.html"),
                 cart: resolve(__dirname, "src/pages/store/cart/cart.html"),
                 productDetail: resolve(__dirname, "src/pages/store/productDetail/productDetail.html"),
-                clientOrders: resolve(__dirname, "src/pages/client/orders/orders.html")                
+                clientOrders: resolve(__dirname, "src/pages/client/orders/clientOrders.html")                
             },
         },
     },
@@ -31,10 +31,10 @@ export default defineConfig({
                     if (req.url === "/adminPanel"){req.url = "/src/pages/admin/adminHome/home.html";}
                     if (req.url === "/manageCategories"){req.url = "/src/pages/admin/categories/categories.html";}
                     if (req.url === "/manageProducts"){req.url = "/src/pages/admin/products/products.html";}
-                    if (req.url === "/manageOrders"){req.url = "/src/pages/admin/orders/orders.html";}
+                    if (req.url === "/manageOrders"){req.url = "/src/pages/admin/orders/manageOrders.html";}
                     if (req.url === "/tienda") {req.url = "/src/pages/store/home/storeHome.html"; }
                     if (req.url === "/carrito") {req.url = "/src/pages/store/cart/cart.html"; }
-                    if (req.url === "/pedidos") {req.url = "/src/pages/client/orders/orders.html";}    
+                    if (req.url === "/pedidos") {req.url = "/src/pages/client/orders/clientOrders.html";}    
                     if (req.url?.startsWith("/producto")) { req.url = "/src/pages/store/productDetail/productDetail.html";}
                     next();
                 });

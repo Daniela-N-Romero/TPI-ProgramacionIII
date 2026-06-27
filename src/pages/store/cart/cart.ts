@@ -1,4 +1,4 @@
-import { ModalService } from "../../../utils/modal";
+import { ModalService } from "../../../utils/modals/modal";
 import type { FormaPago, IOrder } from "../../../types/IOrder";
 import { clearCart, removeFromCart, getCartTotal, getCartQuantity, updateCartItemQuantity, getCartByEmail} from "../../../utils/storage/cartStorage";
 import { getActiveUser } from "../../../utils/storage/userStorage";
@@ -179,8 +179,8 @@ const procesarConfirmacionPedido = async (formaPago: FormaPago, total: number): 
     const usuarioLogueado = getActiveUser();
     const cart = await getCartByEmail(usuarioLogueado.mail);
     const nuevoPedido: IOrder = {
-        id: Date.now(),
-        fecha: new Date().toLocaleDateString("es-AR"),
+        id: cart.length,
+        fecha: new Date().toISOString(),
         estado: "PENDIENTE",
         total: total,
         formaPago: formaPago,

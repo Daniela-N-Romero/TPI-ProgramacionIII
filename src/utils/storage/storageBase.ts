@@ -1,4 +1,5 @@
 // Los datos se traen desde los JSON y se guardan en memoria (session storage) o local storage segùn lo solicitado por la catedra
+import type { IOrder } from "../../types/IOrder";
 import { fetchProducts, fetchCategories, fetchOrders, fetchUsers } from "../fetch";
 
 // --------------------------
@@ -43,6 +44,7 @@ export const saveArray = <T>(array: T[], storageItem: string): void => {
 // FUNCIONES ASINCRONAS
 // --------------------------
 
+//CARGA DE DATOS INICIAL
 // Esto asegura que no importa en qué página estés, si se necesitan los datos, se van a buscar.
 const verificarFetchSemilla = async (storageItem: string): Promise<void> => {
   const storage = determinarStorage(storageItem);
@@ -55,16 +57,45 @@ const verificarFetchSemilla = async (storageItem: string): Promise<void> => {
     if (storageItem === "categories") data = await fetchCategories();
     if (storageItem === "orders") data = await fetchOrders();
     if (storageItem === "users") data = await fetchUsers();
+    if (storageItem.includes("orders_")) {sembrarPedidosPorUsuario(await fetchOrders());}
 
     if (data.length > 0) {
-      storage.setItem(storageItem, JSON.stringify(data));
+       storage.setItem(storageItem, JSON.stringify(data));
     }
+    
   } catch (error) {
     console.error(`Error en la auto-importación de ${storageItem}:`, error);
   }
 };
 
+const sembrarPedidosPorUsuario = (data: any[])=>{
+        //creamos un objeto JSON con emails de usuarios con llaves y le agregamos como valor un array con sus pedidos
+        const pedidosPorUsuario: { [email: string]: IOrder[] } = {};
+        
+        data.forEach((pedido) => {
+          const email = pedido.usuarioDto?.mail;
+        
+          if (email) {
+            if (!pedidosPorUsuario[email]) {
+              pedidosPorUsuario[email] = []; //si se encuentra un usuario pero no existia en el array pedidosPorUsuario se lo agrega con un valor de array vacio
+            }
+            pedidosPorUsuario[email].push(pedido); //si el usuario habia sido encoontrado antes, se le agrega un pedido más a su array
+          }
+        });
 
+        // Por cada usuario que estaba en los pedidos del JSON origina, creamos en el localStorage sus pedidos para que puedan acceder a ellos al iniciar sesión
+        Object.keys(pedidosPorUsuario).forEach((email) => {
+          const llaveCliente = `orders_${email}`;
+          
+          // Solo los creamos en el localStorage si el cliente no tiene ya un historial guardado
+          if (!localStorage.getItem(llaveCliente)) {
+            localStorage.setItem(llaveCliente, JSON.stringify(pedidosPorUsuario[email]));
+          }
+        });
+}
+
+
+// CRUD CON ASINCRONIA
 // Traer array de elementos
 export const getElementsFromStorage = async <T>(storageItem: string): Promise<T[]> => {
   await verificarFetchSemilla(storageItem);
@@ -101,3 +132,4 @@ export const saveOrUpdate = async <T extends { id: number }>(element: T, storage
   }
   saveArray(array, storageItem);
 };
+

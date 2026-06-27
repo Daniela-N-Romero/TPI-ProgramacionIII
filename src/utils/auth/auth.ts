@@ -1,7 +1,7 @@
 
 import type { Rol, IUserStorage } from "../../types/IUser";
 import { getActiveUser, removeActiveUser } from "../storage/userStorage";
-import { fetchUsers } from "..//fetch"
+import { fetchUsers } from "../fetch"
 import { navigate } from "../guards/guards"
 
 

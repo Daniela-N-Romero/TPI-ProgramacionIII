@@ -1,15 +1,20 @@
 import { getOrders, saveOrUpdateOrder } from '../../../utils/storage/orderStorage';
 import type { IOrder, Estado } from '../../../types/IOrder';
-import { ModalService } from '../../../utils/modal';
+import { ModalService } from '../../../utils/modals/modal';
 import { getActiveUser } from '../../../utils/storage/userStorage';
+import { navigate } from '../../../utils/guards/guards';
+import { filtrarPedidosPorEstado, formatearFechaParaPantalla, ordenarPedidosPorFechaDesc } from '../../../utils/orders/orders';
+
 
 document.addEventListener("DOMContentLoaded", () => {
   ModalService.init();
   const user = getActiveUser();
   const main = document.querySelector(".main-content");
-  if (user.rol === "ADMIN") {
+  if (user?.rol === "ADMIN") {
     main?.classList.add("main-content-block")
     renderGestionPedidos();
+  }else{
+    navigate("./tienda")
   }
 });
 
@@ -64,7 +69,7 @@ export const renderGestionPedidos = async () => {
       card.innerHTML = `
       <div class="order-header">
         <span class="order-id">Pedido #${pedido.id}</span>
-        <span class="order-date">${pedido.fecha}</span>
+        <span class="order-date">${formatearFechaParaPantalla(pedido.fecha)}</span>
       </div>
       <div class="order-body">
         <p><strong>Cliente:</strong> ${pedido.usuarioDto.nombre} (${pedido.usuarioDto.mail})</p>
@@ -122,7 +127,7 @@ export const abrirModalDetallePedido = (pedido: IOrder) => {
       <div class="form-group">
         <label>Información de Entrega y Compra</label>
         <div style="background-color: #f8f9fa; padding: 12px; border-radius: 6px; font-size: 0.9rem; line-height: 1.5;">
-          <p style="margin: 4px 0;"><strong>Fecha y Hora:</strong> ${pedido.fecha}</p>
+          <p style="margin: 4px 0;"><strong>Fecha y Hora:</strong> ${formatearFechaParaPantalla(pedido.fecha)}</p>
           <p style="margin: 4px 0;"><strong>Forma de Pago:</strong> ${pedido.formaPago}</p>
           <p style="margin: 4px 0;"><strong>Cliente:</strong> ${pedido.usuarioDto.nombre} (${pedido.usuarioDto.mail})</p>
         </div>
@@ -196,19 +201,4 @@ export const abrirModalDetallePedido = (pedido: IOrder) => {
       });
     }
   });
-};
-
-//Funciones auxiliares 
-
-export const ordenarPedidosPorFechaDesc = (pedidos: IOrder[]): IOrder[] => {
-  return [...pedidos].sort((a, b) => {
-    return new Date(b.fecha).getTime() - new Date(a.fecha).getTime();
-  });
-};
-
-export const filtrarPedidosPorEstado = (pedidos: IOrder[], estadoSeleccionado: string): IOrder[] => {
-  if (!estadoSeleccionado || estadoSeleccionado === 'TODOS') {
-    return pedidos;
-  }
-  return pedidos.filter(pedido => pedido.estado === estadoSeleccionado);
 };

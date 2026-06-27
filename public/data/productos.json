@@ -86,7 +86,7 @@
     "descripcion": "Carne picada, cebolla, huevo duro, aceitunas y especias",
     "stock": 100,
     "imagen": "https://imgs.search.brave.com/59eMoaWJDRojEIbZWP0bDyOXFyd-uZ67f1Od9J5OdJo/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWFn/LmJvbnZpdmV1ci5j/b20vZW1wYW5hZGFz/LWFyZ2VudGluYXMt/ZGUtY2FybmUtZm90/by1jZXJjYS5qcGc",
-    "disponible": true,
+    "disponible": false,
     "categoria": { "id": 3, "nombre": "Empanadas", "descripcion": "Empanadas caseras horneadas" }
   },
   {
@@ -106,7 +106,7 @@
     "descripcion": "Jamón cocido y mozzarella",
     "stock": 90,
     "imagen": "https://imgs.search.brave.com/7oHPZkFZ8_QQGTD7jyuHPv22MkZ0XOCuew9a7chmD3g/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMucmFwcGkuY29t/LmFyL3Byb2R1Y3Rz/L2Y1MWFiMWI4LTdh/MzUtNGZkZi1hYWRm/LWQyNmJmYjcyYTRk/NS5wbmc_ZD0zMDB4/MzAwJmU9d2VicCZx/PTEw",
-    "disponible": false,
+    "disponible": true,
     "categoria": { "id": 3, "nombre": "Empanadas", "descripcion": "Empanadas caseras horneadas" }
   },
   {
@@ -116,7 +116,7 @@
     "descripcion": "Espinaca, acelga, ricota y nuez moscada",
     "stock": 60,
     "imagen": "https://imgs.search.brave.com/CFN-cLWHvGEPaFwXsHGF1B06YLGa6dL6reSjESWoM1w/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9yZWNl/dGFzbmF0dXJhLmNv/bS5hci9zaXRlcy9y/ZWNldGFzbmF0dXJh/L2ZpbGVzL25hdHVy/YS1mb3Rvcy13ZWIt/ZW5lcm8tNjU1eDQ3/NWVtcGFuYWRhc19k/ZV92ZXJkdXJhLmpw/Zw",
-    "disponible": true,
+    "disponible": false,
     "categoria": { "id": 3, "nombre": "Empanadas", "descripcion": "Empanadas caseras horneadas" }
   },
   {
